@@ -1,0 +1,64 @@
+﻿@model TopDom.ViewModels.Cart.CartViewModel
+@{
+    ViewData["Title"] = "Количка";
+}
+
+<h2>Моята количка</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (!Model.Items.Any())
+{
+    <p>Количката е празна.</p>
+}
+else
+{
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Продукт</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Общо</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        <img src="@(item.HasImage ? Url.Action("Image", "Products", new { id = item.ProductId }) : "/images/no-image.png")"
+                             style="width:60px;height:60px;object-fit:cover;" />
+                    </td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price.ToString("0.00") лв.</td>
+                    <td style="width:120px;">
+                        <form asp-action="UpdateQuantity" method="post" class="d-flex gap-1">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" max="@item.Stock" class="form-control form-control-sm" />
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">✓</button>
+                        </form>
+                    </td>
+                    <td>@item.Total.ToString("0.00") лв.</td>
+                    <td>
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Премахни</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="text-end">Общо: @Model.GrandTotal.ToString("0.00") лв.</h4>
+
+    <div class="text-end">
+        <a asp-controller="Orders" asp-action="Checkout" class="btn btn-success">Завърши поръчката</a>
+    </div>
+}

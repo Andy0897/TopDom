@@ -1,0 +1,34 @@
+﻿@model List<TopDom.ViewModels.Orders.OrderViewModel>
+@using TopDom.Models
+@{
+    ViewData["Title"] = "Всички поръчки";
+}
+
+<h2>Всички поръчки</h2>
+
+<table class="table">
+    <thead><tr><th>№</th><th>Клиент</th><th>Дата</th><th>Сума</th><th>Статус</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.CustomerName</td>
+                <td>@o.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@o.GrandTotal.ToString("0.00") лв.</td>
+                <td>
+                    <form asp-action="ChangeStatus" method="post" class="d-flex gap-1">
+                        <input type="hidden" name="orderId" value="@o.Id" />
+                        <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                            @foreach (var status in Enum.GetValues<OrderStatus>())
+                            {
+                                <option value="@status" selected="@(status == o.Status)">@status</option>
+                            }
+                        </select>
+                    </form>
+                </td>
+                <td><a asp-action="Details" asp-route-id="@o.Id" class="btn btn-sm btn-outline-primary">Детайли</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

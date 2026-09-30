@@ -1,0 +1,30 @@
+﻿@model TopDom.Models.Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <img src="@(Model.ImageData != null ? Url.Action("Image", new { id = Model.Id }) : "/images/no-image.png")"
+             class="img-fluid rounded" />
+    </div>
+    <div class="col-md-7">
+        <h2>@Model.Name</h2>
+        <p class="text-muted">@Model.Category.Name</p>
+        <p>@Model.Description</p>
+        <h4>@Model.Price.ToString("0.00") лв.</h4>
+        <p>Наличност: @Model.Stock бр.</p>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2 mt-3">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" class="form-control" style="width:100px;" />
+                <button type="submit" class="btn btn-primary">Добави в количка</button>
+            </form>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Login" class="btn btn-primary mt-3">Влез, за да поръчаш</a>
+        }
+    </div>
+</div>

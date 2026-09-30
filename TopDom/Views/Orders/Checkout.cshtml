@@ -1,0 +1,23 @@
+﻿@model TopDom.ViewModels.Orders.CheckoutViewModel
+@{
+    ViewData["Title"] = "Завършване на поръчка";
+}
+
+<h2>Завършване на поръчка</h2>
+
+<form asp-action="Checkout" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Потвърди поръчката</button>
+</form>

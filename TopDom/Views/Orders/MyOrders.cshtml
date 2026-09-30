@@ -1,0 +1,29 @@
+﻿@model List<TopDom.ViewModels.Orders.OrderViewModel>
+@{
+    ViewData["Title"] = "Моите поръчки";
+}
+
+<h2>Моите поръчки</h2>
+
+@if (!Model.Any())
+{
+    <p>Все още нямате поръчки.</p>
+}
+else
+{
+    <table class="table">
+        <thead><tr><th>№</th><th>Дата</th><th>Статус</th><th>Сума</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>@o.Id</td>
+                    <td>@o.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@o.Status</td>
+                    <td>@o.GrandTotal.ToString("0.00") лв.</td>
+                    <td><a asp-action="Details" asp-route-id="@o.Id" class="btn btn-sm btn-outline-primary">Детайли</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,32 @@
+﻿@model TopDom.ViewModels.Orders.OrderViewModel
+@{
+    ViewData["Title"] = $"Поръчка №{Model.Id}";
+}
+
+<h2>Поръчка №@Model.Id</h2>
+<p>Дата: @Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
+<p>Статус: <strong>@Model.Status</strong></p>
+<p>Адрес: @Model.Address</p>
+<p>Телефон: @Model.Phone</p>
+
+@if (Model.CustomerName != null)
+{
+    <p>Клиент: @Model.CustomerName</p>
+}
+
+<table class="table">
+    <thead><tr><th>Продукт</th><th>Цена</th><th>Бр.</th><th>Общо</th></tr></thead>
+    <tbody>
+        @foreach (var i in Model.Items)
+        {
+            <tr>
+                <td>@i.ProductName</td>
+                <td>@i.Price.ToString("0.00") лв.</td>
+                <td>@i.Quantity</td>
+                <td>@i.Total.ToString("0.00") лв.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="text-end">Общо: @Model.GrandTotal.ToString("0.00") лв.</h4>

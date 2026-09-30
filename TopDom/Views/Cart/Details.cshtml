@@ -1,0 +1,14 @@
+﻿// Details.cshtml
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2 mt-3">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" class="form-control" style="width:100px;" />
+        <button type="submit" class="btn btn-primary">Добави в количка</button>
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login" class="btn btn-primary mt-3">Влез, за да поръчаш</a>
+}

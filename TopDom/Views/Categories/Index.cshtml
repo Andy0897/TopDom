@@ -1,0 +1,31 @@
+﻿@model List<TopDom.Models.Category>
+@{
+    ViewData["Title"] = "Категории";
+}
+
+<h2>Категории</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Нова категория</a>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table">
+    <thead><tr><th>Име</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary">Редакция</a>
+                    <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline"
+                          onsubmit="return confirm('Сигурни ли сте?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Изтрий</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

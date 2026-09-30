@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TopDom.Tests/TopDom.Tests.csproj" Id="9d159724-8b43-4926-a03a-7c5360e0fa95" />
+  <Project Path="TopDom/TopDom.csproj" />
+</Solution>

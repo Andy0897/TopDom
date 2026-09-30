@@ -1,0 +1,2 @@
+User selected: Redirect to another action/view (RedirectToAction/Redirect)
+Will provide concise guidance and examples for using RedirectToAction, Redirect, RedirectToRoute, and returning a specific View in an ASP.NET Core MVC controller. No code changes to workspace unless user requests.
