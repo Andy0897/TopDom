@@ -1,8 +1,39 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<TopDom.Models.Category>
+@{
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="hero">
+    <div class="hero-inner">
+        <h1>Електроуреди за вашия дом</h1>
+        <p>Качествена техника, бърза доставка и гаранция за спокойствие във всяка стая.</p>
+        <a asp-controller="Products" asp-action="Index" class="btn btn-primary btn-lg">Разгледай продуктите</a>
+    </div>
+</section>
+
+<div class="promo-banner">
+    <strong>Безплатна доставка</strong> за поръчки над 100 лв. до края на месеца.
+</div>
+
+<div class="container page-section">
+    <h2 class="mb-4 text-center">Категории</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center text-muted">Все още няма добавени категории.</p>
+    }
+    else
+    {
+        <div class="row row-cols-2 row-cols-md-4 g-3">
+            @foreach (var c in Model)
+            {
+                <div class="col">
+                    <a class="category-tile" asp-controller="Products" asp-action="Index" asp-route-categoryId="@c.Id">
+                        <div class="cat-icon">@c.Name.Substring(0, 1)</div>
+                        <div>@c.Name</div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
 </div>

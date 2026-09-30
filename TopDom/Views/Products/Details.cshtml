@@ -3,28 +3,61 @@
     ViewData["Title"] = Model.Name;
 }
 
-<div class="row">
-    <div class="col-md-5">
-        <img src="@(Model.ImageData != null ? Url.Action("Image", new { id = Model.Id }) : "/images/no-image.png")"
-             class="img-fluid rounded" />
+<div class="container page-section">
+    <div class="crumb">
+        <a asp-action="Index">Продукти</a> / @Model.Category.Name
     </div>
-    <div class="col-md-7">
-        <h2>@Model.Name</h2>
-        <p class="text-muted">@Model.Category.Name</p>
-        <p>@Model.Description</p>
-        <h4>@Model.Price.ToString("0.00") лв.</h4>
-        <p>Наличност: @Model.Stock бр.</p>
-        @if (User.Identity?.IsAuthenticated == true)
-        {
-            <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2 mt-3">
-                <input type="hidden" name="productId" value="@Model.Id" />
-                <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" class="form-control" style="width:100px;" />
-                <button type="submit" class="btn btn-primary">Добави в количка</button>
-            </form>
-        }
-        else
-        {
-            <a asp-controller="Account" asp-action="Login" class="btn btn-primary mt-3">Влез, за да поръчаш</a>
-        }
+
+    <div class="row g-5">
+        <div class="col-md-5">
+            <img src="@(Model.ImageData != null ? Url.Action("Image", new { id = Model.Id }) : "/images/no-image.png")"
+                 class="img-fluid rounded" style="border: 1px solid var(--border);" alt="@Model.Name" />
+        </div>
+        <div class="col-md-7">
+            <h2>@Model.Name</h2>
+            <p class="text-muted mb-3">@Model.Category.Name</p>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <p>@Model.Description</p>
+            }
+
+            <h3 class="price my-3">@Model.Price.ToString("0.00") лв.</h3>
+
+            @{
+                var stockClass = Model.Stock == 0 ? "out" : Model.Stock <= 3 ? "low" : "";
+                var stockText = Model.Stock == 0 ? "Изчерпан" : $"{Model.Stock} бр. в наличност";
+            }
+            <div class="stock-badge @stockClass mb-4">
+                <span class="dot"></span> @stockText
+            </div>
+
+            @if (Model.Stock > 0)
+            {
+                @if (User.IsInRole("User"))
+                {
+                    <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" class="form-control qty-input" />
+                        <button type="submit" class="btn btn-primary">Добави в количка</button>
+                    </form>
+                }
+                else if (!User.Identity?.IsAuthenticated ?? true)
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Влез, за да поръчаш</a>
+                }
+            }
+
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="mt-4 pt-3" style="border-top: 1px solid var(--border);">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-sm">Редакция</a>
+                    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline"
+                          onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този продукт?');">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Изтрий</button>
+                    </form>
+                </div>
+            }
+        </div>
     </div>
 </div>

@@ -1,31 +1,465 @@
-html {
-  font-size: 14px;
-}
+/* ============ Fonts & tokens ============ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap');
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --navy-900: #0B1B3A;
+    --navy-800: #13254A;
+    --navy-700: #1D3868;
+    --gold-500: #D4A62A;
+    --gold-300: #E8C158;
+    --blue-400: #2FA8E0;
+    --bg: #F5F7FA;
+    --paper: #FFFFFF;
+    --ink: #16213D;
+    --ink-soft: #55607A;
+    --border: #E2E6EE;
+    --success: #3F9C6D;
+    --danger: #C24B47;
+    --radius: 10px;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-head: 'Poppins', system-ui, sans-serif;
+    /* Bootstrap overrides — this makes existing btn/table/alert/card markup match the theme */
+    --bs-primary: var(--gold-500);
+    --bs-primary-rgb: 212, 166, 42;
+    --bs-success: var(--success);
+    --bs-success-rgb: 63, 156, 109;
+    --bs-danger: var(--danger);
+    --bs-danger-rgb: 194, 75, 71;
+    --bs-body-font-family: var(--font-body);
+    --bs-body-color: var(--ink);
+    --bs-body-bg: var(--bg);
+    --bs-link-color: var(--blue-400);
+    --bs-link-hover-color: var(--navy-700);
+    --bs-border-radius: var(--radius);
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--bg);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+h1, h2, h3, h4, h5, .display-4 {
+    font-family: var(--font-head);
+    color: var(--navy-900);
+    letter-spacing: -0.01em;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+a {
+    color: var(--blue-400);
 }
+
+    a:hover {
+        color: var(--navy-700);
+    }
+
+/* ============ Buttons ============ */
+.btn-primary {
+    background: var(--gold-500);
+    border-color: var(--gold-500);
+    color: var(--navy-900);
+    font-family: var(--font-head);
+    font-weight: 600;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background: var(--gold-300);
+        border-color: var(--gold-300);
+        color: var(--navy-900);
+    }
+
+.btn-outline-primary {
+    color: var(--navy-800);
+    border-color: var(--navy-800);
+}
+
+    .btn-outline-primary:hover {
+        background: var(--navy-800);
+        border-color: var(--navy-800);
+        color: #fff;
+    }
+
+.btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--blue-400);
+    outline-offset: 2px;
+}
+
+/* ============ Header ============ */
+.site-header {
+    background: var(--navy-900);
+    border-bottom: 3px solid var(--gold-500);
+}
+
+    .site-header .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        font-family: var(--font-head);
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: #fff !important;
+    }
+
+        .site-header .navbar-brand img {
+            height: 42px;
+            width: 42px;
+            border-radius: 50%;
+        }
+
+    .site-header .nav-link {
+        color: #D9E0EE !important;
+        font-weight: 500;
+    }
+
+        .site-header .nav-link:hover {
+            color: var(--gold-300) !important;
+        }
+
+        .site-header .nav-link.active {
+            color: var(--gold-500) !important;
+        }
+
+/* ============ Hero (Home) ============ */
+.hero {
+    position: relative;
+    background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-700) 100%);
+    color: #fff;
+    overflow: hidden;
+    padding: 4.5rem 1.5rem 5.5rem;
+}
+
+    .hero::before {
+        /* thin roofline motif, echoing the logo's roof shape */
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 340px;
+        height: 170px;
+        border-left: 3px solid var(--gold-500);
+        border-right: 3px solid var(--gold-500);
+        border-top: 0;
+        clip-path: polygon(50% 0, 100% 45%, 82% 45%, 82% 100%, 18% 100%, 18% 45%, 0 45%);
+        opacity: .18;
+    }
+
+.hero-inner {
+    position: relative;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero h1 {
+    color: #fff;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    margin-bottom: .75rem;
+}
+
+.hero p {
+    color: #C7D1E6;
+    font-size: 1.05rem;
+    margin-bottom: 1.75rem;
+}
+
+.hero .btn-primary {
+    padding: .65rem 1.75rem;
+}
+
+/* banner strip under hero, for promos */
+.promo-banner {
+    background: var(--navy-800);
+    border-top: 1px solid rgba(255,255,255,.08);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    color: #D9E0EE;
+    padding: .85rem 0;
+    text-align: center;
+    font-size: .95rem;
+}
+
+    .promo-banner strong {
+        color: var(--gold-300);
+    }
+
+/* ============ Category tiles (Home) ============ */
+.category-tile {
+    display: block;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color .15s ease, transform .15s ease;
+}
+
+    .category-tile:hover {
+        border-color: var(--gold-500);
+        transform: translateY(-3px);
+        color: var(--ink);
+    }
+
+    .category-tile .cat-icon {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto .6rem;
+        border-radius: 50%;
+        background: var(--navy-900);
+        color: var(--gold-500);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-head);
+        font-weight: 700;
+    }
+
+/* ============ Product cards ============ */
+.card-product {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--paper);
+    transition: border-color .15s ease;
+    height: 100%;
+}
+
+    .card-product:hover {
+        border-color: var(--gold-500);
+    }
+
+    .card-product img {
+        height: 190px;
+        width: 100%;
+        object-fit: cover;
+        display: block;
+        border-bottom: 3px solid transparent;
+        transition: border-color .15s ease;
+    }
+
+    .card-product:hover img {
+        border-bottom-color: var(--gold-500);
+    }
+
+    .card-product .card-body {
+        padding: 1rem;
+    }
+
+    .card-product .card-title {
+        font-family: var(--font-head);
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: .2rem;
+    }
+
+    .card-product .price {
+        font-family: var(--font-head);
+        font-weight: 700;
+        color: var(--navy-900);
+        font-size: 1.1rem;
+    }
+
+/* ============ Forms / auth ============ */
+.auth-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    max-width: 440px;
+    margin: 2.5rem auto;
+}
+
+    .auth-card h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--blue-400);
+    box-shadow: 0 0 0 .2rem rgba(47,168,224,.15);
+}
+
+/* ============ Tables ============ */
+.table thead {
+    background: var(--navy-900);
+    color: #fff;
+}
+
+    .table thead th {
+        border: none;
+        font-weight: 500;
+    }
+
+/* ============ Footer ============ */
+.site-footer {
+    background: var(--navy-900);
+    color: #B7C2DA;
+    margin-top: 4rem;
+    padding: 2.5rem 0 1.25rem;
+}
+
+    .site-footer h6 {
+        color: #fff;
+        font-family: var(--font-head);
+        margin-bottom: .85rem;
+    }
+
+    .site-footer a {
+        color: #B7C2DA;
+        text-decoration: none;
+    }
+
+        .site-footer a:hover {
+            color: var(--gold-300);
+        }
+
+.trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,.1);
+    font-size: .85rem;
+    color: #9FADC8;
+}
+
+    .trust-strip span {
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+    }
+
+    .trust-strip .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--gold-500);
+    }
+
+/* ============ Misc ============ */
+.page-section {
+    padding: 2.5rem 0;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--ink-soft);
+}
+
+/* ============ Page header ============ */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+    .page-header h2 {
+        margin: 0;
+    }
+
+    .page-header .text-muted {
+        font-size: .95rem;
+    }
+
+/* ============ Card-wrapped tables ============ */
+.table-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+    .table-card .table {
+        margin-bottom: 0;
+    }
+
+        .table-card .table td, .table-card .table th {
+            vertical-align: middle;
+            padding: .85rem 1rem;
+        }
+
+/* ============ Form card (for simple single-field forms) ============ */
+.form-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    max-width: 520px;
+}
+
+/* ============ Status badges ============ */
+.badge-status {
+    display: inline-block;
+    padding: .35em .75em;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 600;
+    font-family: var(--font-head);
+}
+
+    .badge-status.status-new {
+        background: rgba(47,168,224,.15);
+        color: #1C6E96;
+    }
+
+    .badge-status.status-shipped {
+        background: rgba(212,166,42,.18);
+        color: #8A6A16;
+    }
+
+    .badge-status.status-delivered {
+        background: rgba(63,156,109,.15);
+        color: #2A7350;
+    }
+
+/* ============ Stock badge ============ */
+.stock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .9rem;
+    color: var(--ink-soft);
+}
+
+    .stock-badge .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+    }
+
+    .stock-badge.low .dot {
+        background: var(--gold-500);
+    }
+
+    .stock-badge.out .dot {
+        background: var(--danger);
+    }
+
+/* ============ Quantity stepper input ============ */
+.qty-input {
+    width: 70px;
+}
+
+/* ============ Breadcrumb-lite ============ */
+.crumb {
+    font-size: .9rem;
+    color: var(--ink-soft);
+    margin-bottom: .5rem;
+}
+
+    .crumb a {
+        color: var(--ink-soft);
+    }
+
+        .crumb a:hover {
+            color: var(--blue-400);
+        }

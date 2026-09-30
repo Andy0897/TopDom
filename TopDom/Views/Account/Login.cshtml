@@ -3,9 +3,9 @@
     ViewData["Title"] = "Вход";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <h2 class="mb-4">Вход</h2>
+<div class="container page-section">
+    <div class="auth-card">
+        <h2>Вход</h2>
 
         @if (TempData["Success"] != null)
         {
@@ -13,14 +13,14 @@
         }
 
         <form asp-action="Login" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            <div class="mb-4">
                 <label asp-for="Password" class="form-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
@@ -28,6 +28,9 @@
 
             <button type="submit" class="btn btn-primary w-100">Вход</button>
         </form>
+        <p class="text-center small mt-3 mb-0">
+            Нямаш акаунт? <a asp-action="Register">Регистрирай се</a>
+        </p>
     </div>
 </div>
 

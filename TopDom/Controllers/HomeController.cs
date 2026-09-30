@@ -1,14 +1,23 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using TopDom.Models;
+using TopDom.Services.Interfaces;
 
 namespace TopDom.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ICategoryService _categoryService;
+
+        public HomeController(ICategoryService categoryService)
         {
-            return View();
+            _categoryService = categoryService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var categories = await _categoryService.GetAllAsync();
+            return View(categories);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

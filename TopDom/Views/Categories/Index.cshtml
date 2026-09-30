@@ -3,29 +3,48 @@
     ViewData["Title"] = "Категории";
 }
 
-<h2>Категории</h2>
-<a asp-action="Create" class="btn btn-primary mb-3">Нова категория</a>
+<div class="container page-section">
+    <div class="page-header">
+        <h2>Категории</h2>
+        <a asp-action="Create" class="btn btn-primary">Нова категория</a>
+    </div>
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
 
-<table class="table">
-    <thead><tr><th>Име</th><th></th></tr></thead>
-    <tbody>
-        @foreach (var c in Model)
-        {
-            <tr>
-                <td>@c.Name</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary">Редакция</a>
-                    <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline"
-                          onsubmit="return confirm('Сигурни ли сте?');">
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Изтрий</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <p class="mb-0">Все още няма добавени категории.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-card">
+            <table class="table mb-0">
+                <thead><tr><th>Име</th><th style="width: 220px;"></th></tr></thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td>@c.Name</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary">Редакция</a>
+                                <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline"
+                                      onsubmit="return confirm('Сигурни ли сте?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Изтрий</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

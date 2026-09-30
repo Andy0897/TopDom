@@ -1,32 +1,69 @@
 ﻿@model TopDom.ViewModels.Orders.OrderViewModel
+@using TopDom.Models
 @{
     ViewData["Title"] = $"Поръчка №{Model.Id}";
 }
 
-<h2>Поръчка №@Model.Id</h2>
-<p>Дата: @Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
-<p>Статус: <strong>@Model.Status</strong></p>
-<p>Адрес: @Model.Address</p>
-<p>Телефон: @Model.Phone</p>
-
-@if (Model.CustomerName != null)
-{
-    <p>Клиент: @Model.CustomerName</p>
+@{
+    var statusClass = Model.Status == OrderStatus.Нова ? "status-new"
+                     : Model.Status == OrderStatus.Изпратена ? "status-shipped"
+                     : "status-delivered";
 }
 
-<table class="table">
-    <thead><tr><th>Продукт</th><th>Цена</th><th>Бр.</th><th>Общо</th></tr></thead>
-    <tbody>
-        @foreach (var i in Model.Items)
-        {
-            <tr>
-                <td>@i.ProductName</td>
-                <td>@i.Price.ToString("0.00") лв.</td>
-                <td>@i.Quantity</td>
-                <td>@i.Total.ToString("0.00") лв.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container page-section">
+    <div class="crumb">
+        <a asp-action="@(Model.CustomerName != null ? "AllOrders" : "MyOrders")">
+            @(Model.CustomerName != null ? "Всички поръчки" : "Моите поръчки")
+        </a> / Поръчка №@Model.Id
+    </div>
 
-<h4 class="text-end">Общо: @Model.GrandTotal.ToString("0.00") лв.</h4>
+    <div class="page-header">
+        <h2>Поръчка №@Model.Id</h2>
+        <span class="badge-status @statusClass">@Model.Status</span>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="form-card h-100">
+                <p class="text-muted small mb-1">Дата</p>
+                <p class="mb-0">@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-card h-100">
+                <p class="text-muted small mb-1">Адрес за доставка</p>
+                <p class="mb-0">@Model.Address</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-card h-100">
+                <p class="text-muted small mb-1">Телефон</p>
+                <p class="mb-0">@Model.Phone</p>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.CustomerName != null)
+    {
+        <p class="mb-4"><strong>Клиент:</strong> @Model.CustomerName</p>
+    }
+
+    <div class="table-card mb-4">
+        <table class="table mb-0">
+            <thead><tr><th>Продукт</th><th>Цена</th><th>Бр.</th><th>Общо</th></tr></thead>
+            <tbody>
+                @foreach (var i in Model.Items)
+                {
+                    <tr>
+                        <td>@i.ProductName</td>
+                        <td>@i.Price.ToString("0.00") лв.</td>
+                        <td>@i.Quantity</td>
+                        <td class="fw-semibold">@i.Total.ToString("0.00") лв.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="text-end">Общо: <span class="price">@Model.GrandTotal.ToString("0.00") лв.</span></h4>
+</div>

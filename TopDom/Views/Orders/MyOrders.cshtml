@@ -1,29 +1,40 @@
 ﻿@model List<TopDom.ViewModels.Orders.OrderViewModel>
+@using TopDom.Models
 @{
     ViewData["Title"] = "Моите поръчки";
 }
 
-<h2>Моите поръчки</h2>
+<div class="container page-section">
+    <h2 class="mb-4">Моите поръчки</h2>
 
-@if (!Model.Any())
-{
-    <p>Все още нямате поръчки.</p>
-}
-else
-{
-    <table class="table">
-        <thead><tr><th>№</th><th>Дата</th><th>Статус</th><th>Сума</th><th></th></tr></thead>
-        <tbody>
-            @foreach (var o in Model)
-            {
-                <tr>
-                    <td>@o.Id</td>
-                    <td>@o.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
-                    <td>@o.Status</td>
-                    <td>@o.GrandTotal.ToString("0.00") лв.</td>
-                    <td><a asp-action="Details" asp-route-id="@o.Id" class="btn btn-sm btn-outline-primary">Детайли</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <p class="mb-3">Все още нямате поръчки.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-primary">Разгледай продуктите</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-card">
+            <table class="table mb-0">
+                <thead><tr><th>№</th><th>Дата</th><th>Статус</th><th>Сума</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var o in Model)
+                    {
+                        var statusClass = o.Status == OrderStatus.Нова ? "status-new"
+                                         : o.Status == OrderStatus.Изпратена ? "status-shipped"
+                                         : "status-delivered";
+                        <tr>
+                            <td>#@o.Id</td>
+                            <td>@o.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td><span class="badge-status @statusClass">@o.Status</span></td>
+                            <td class="fw-semibold">@o.GrandTotal.ToString("0.00") лв.</td>
+                            <td><a asp-action="Details" asp-route-id="@o.Id" class="btn btn-sm btn-outline-primary">Детайли</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
